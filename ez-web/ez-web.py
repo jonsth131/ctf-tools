@@ -64,16 +64,16 @@ def find_urls(regex, url, response):
 
 
 def check_urls(url, response):
-    find_urls(re.compile(r'href="(.*)"'), url, response)
+    find_urls(re.compile(r'href=\"([^\"]+)'), url, response)
     find_urls(re.compile(r'<script.*src="(.*)"'), url, response)
 
 
 def check_comments(response):
-    html_comments = re.compile(r'<!--(.*)-->')
+    html_comments = re.compile(r'\<\!\-\-(?:.|\n|\r)*?-->')
     comments = html_comments.findall(response)
     for comment in comments:
         print(f"{green}HTML comment found: {comment}{end}")
-    block_comments = re.compile(r'/\*(.*)\*/')
+    block_comments = re.compile(r'/\*.*?\*/|/\*[\s\S]*?\*/')
     comments = block_comments.findall(response)
     for comment in comments:
         print(f"{green}Block comment found: {comment}{end}")
@@ -135,7 +135,7 @@ if __name__ == '__main__':
         if not url.startswith(BASE_URL):
             continue
 
-        print(f"{info}Checking {url}{end}", end='...')
+        print(f"{info}Checking {url}{end} ", end='...')
         r = s.get(url)
         if r.status_code == 200:
             print(f"{green}Found{end}")
