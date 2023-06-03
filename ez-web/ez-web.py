@@ -89,7 +89,7 @@ def check_response(response):
     flag = flag_regex.findall(response)
     if flag:
         print(f"{green}Flag found: {flag[0]}{end}")
-    base64_regex = re.compile(r'[A-Za-z0-9+/=]{4,}')
+    base64_regex = re.compile(r'[A-Za-z0-9+/=]{6,}')
     base64_data = base64_regex.findall(response)
     for data in base64_data:
         try:
