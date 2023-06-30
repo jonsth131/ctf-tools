@@ -57,6 +57,8 @@ def find_urls(regex, url, response):
     for url in urls:
         if url.startswith('http'):
             add_url(url)
+        elif url.startswith('//'):
+            add_url('https:' + url)
         elif url.startswith('/'):
             add_url(BASE_URL + url)
         else:
@@ -85,11 +87,11 @@ def check_comments(response):
 
 def check_response(response):
     check_comments(response)
-    flag_regex = re.compile(r'[A-Za-z0-9]*{.*}')
+    flag_regex = re.compile(r'[A-Za-z0-9]{1,}{[A-Za-z0-9\_\-\?\!]{3,}}')
     flag = flag_regex.findall(response)
     if flag:
         print(f"{green}Flag found: {flag[0]}{end}")
-    base64_regex = re.compile(r'[A-Za-z0-9+/=]{6,}')
+    base64_regex = re.compile(r'[A-Za-z0-9+\/]{6,}[=]{0,2}')
     base64_data = base64_regex.findall(response)
     for data in base64_data:
         try:
@@ -122,6 +124,8 @@ if __name__ == '__main__':
     parser.add_argument('-u', '--url', help='URL to request', required=True)
     args = parser.parse_args()
     parsed_url = urlparse(args.url)
+    if not parsed_url.scheme:
+        parsed_url = urlparse('https://' + args.url)
     BASE_URL = parsed_url.scheme + '://' + parsed_url.netloc
 
     URLS.append(parsed_url.geturl())
