@@ -74,15 +74,15 @@ def check_comments(response):
     html_comments = re.compile(r'\<\!\-\-(?:.|\n|\r)*?-->')
     comments = html_comments.findall(response)
     for comment in comments:
-        print(f"{green}HTML comment found: {comment}{end}")
+        print(f"{cyan}HTML comment found: {comment}{end}")
     block_comments = re.compile(r'/\*.*?\*/|/\*[\s\S]*?\*/')
     comments = block_comments.findall(response)
     for comment in comments:
-        print(f"{green}Block comment found: {comment}{end}")
+        print(f"{cyan}Block comment found: {comment}{end}")
     line_comments = re.compile(r'// (.*)')
     comments = line_comments.findall(response)
     for comment in comments:
-        print(f"{green}Line comment found: {comment}{end}")
+        print(f"{cyan}Line comment found: {comment}{end}")
 
 
 def check_response(response):
@@ -97,8 +97,8 @@ def check_response(response):
         try:
             decoded = base64.b64decode(data).decode('utf-8')
             if all(c in string.printable for c in decoded):
-                print(f"{green}Base64 data found: {data}{end}")
-                print(f"{green}Decoded: {decoded}{end}")
+                print(f"{cyan}Base64 data found: {data}{end}")
+                print(f"{cyan}Decoded: {decoded}{end}")
         except:
             pass
 
