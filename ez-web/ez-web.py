@@ -44,6 +44,9 @@ INTERESTING_PATHS = {
     "robots.txt": handle_robots,
     ".well-known/security.txt": handle_security,
     ".git/HEAD": handle_git,
+    ".DS_Store": lambda r: print(f"{green}.DS_Store found{end}"),
+    ".gitignore": lambda r: print(f"{green}.gitignore found{end}"),
+    ".git/config": lambda r: print(f"{green}.git/config found{end}"),
 }
 
 
