@@ -3,7 +3,6 @@ import argparse
 import os.path
 from scapy.all import *
 
-
 usb_hid_keymap = {
     4: 'a',
     5: 'b',
@@ -79,7 +78,7 @@ if __name__ == "__main__":
                         type=ascii, required=True)
     args = parser.parse_args()
 
-    packets = read_packets(args.pcap)
+    packets = read_packets(args.pcap.replace("'", ''))
     text = read_values(packets)
 
     print(text)
